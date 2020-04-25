@@ -4,10 +4,17 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as helmet from "helmet";
 import * as cors from "cors";
+import * as dotenv from "dotenv";
 
 import {Request, Response} from "express";
 import {Routes} from "./routes/routes";
 import {User} from "./entity/User";
+
+const dotenv_result = dotenv.config();
+if (dotenv_result.error) {
+    throw dotenv_result.error;
+}
+// console.log("env", dotenv_result.parsed); // This shows all loaded environment variables
 
 createConnection().then(async connection => {
 
