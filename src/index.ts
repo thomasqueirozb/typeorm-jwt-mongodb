@@ -24,13 +24,13 @@ createConnection().then(async connection => {
             route.route,                                          // Path: something like /users/:id
             (route.handlers === undefined) ? [] : route.handlers, // Handlers: gets called before the function | normally auth
             (req: Request, res: Response, next: Function) => {    // The actual funcion that handles the request
-                 const result = route.controller[route.action](req, res, next);
-                 if (result instanceof Promise) {
-                     result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
-                 } else if (result !== null && result !== undefined) {
-                     res.json(result);
-                 }
-             });
+                const result = route.controller[route.action](req, res, next);
+                if (result instanceof Promise) {
+                    result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
+                } else if (result !== null && result !== undefined) {
+                    res.json(result);
+                }
+            });
     });
 
     // setup express app here
