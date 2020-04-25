@@ -20,11 +20,11 @@ createConnection().then(async connection => {
 
     // register express routes from defined application routes
     Routes.forEach(route => {
-        (app as any)[route.method](
+        app[route.method](
             route.route,                                          // Path: something like /users/:id
             (route.handlers === undefined) ? [] : route.handlers, // Handlers: gets called before the function | normally auth
             (req: Request, res: Response, next: Function) => {    // The actual funcion that handles the request
-                 const result = (new (route.controller as any))[route.action](req, res, next);
+                 const result = route.controller[route.action](req, res, next);
                  if (result instanceof Promise) {
                      result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
                  } else if (result !== null && result !== undefined) {
