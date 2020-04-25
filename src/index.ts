@@ -6,7 +6,7 @@ import * as helmet from "helmet";
 import * as cors from "cors";
 
 import {Request, Response} from "express";
-import {Routes} from "./routes";
+import {Routes} from "./routes/routes";
 import {User} from "./entity/User";
 
 createConnection().then(async connection => {
@@ -20,15 +20,17 @@ createConnection().then(async connection => {
 
     // register express routes from defined application routes
     Routes.forEach(route => {
-        (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-            const result = (new (route.controller as any))[route.action](req, res, next);
-            if (result instanceof Promise) {
-                result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
-
-            } else if (result !== null && result !== undefined) {
-                res.json(result);
-            }
-        });
+        (app as any)[route.method](
+            route.route,                                          // Path: something like /users/:id
+            (route.handlers === undefined) ? [] : route.handlers, // Handlers: gets called before the function | normally auth
+            (req: Request, res: Response, next: Function) => {    // The actual funcion that handles the request
+                 const result = (new (route.controller as any))[route.action](req, res, next);
+                 if (result instanceof Promise) {
+                     result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
+                 } else if (result !== null && result !== undefined) {
+                     res.json(result);
+                 }
+             });
     });
 
     // setup express app here
