@@ -18,3 +18,12 @@ Steps to run this project:
 2. Setup database settings inside `ormconfig.json` file
 3. Copy .env.example to .env and change the variables
 4. Run `npm start` command
+
+## Variables in .env
+
+| Variable        | Default Value | Meaning                                                                       |
+| --------------- | ------------- | ----------------------------------------------------------------------------- |
+| jwtSecret       | **CHANGEME**  | Random string of characthers for authentication (tip: you should change this) |
+| jwtExpire       | 1h            | Time for token to expire                                                      |
+| port            | 3000          | Port to start                                                                 |
+| disableSecurity | 0             | If set to 1 will disable checkJwt and checkRole **for debugging only**        |

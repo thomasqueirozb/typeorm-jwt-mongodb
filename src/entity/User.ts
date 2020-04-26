@@ -7,10 +7,11 @@ import {
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 import * as bcrypt from "bcryptjs";
+import { Request } from "express";
 
 @Entity()
 @Unique(["username"])
-export class User {
+export default class User {
     @ObjectIdColumn()
     id: ObjectID;
 
@@ -48,6 +49,16 @@ export class User {
 
     @Column()
     birthday: Date;
+
+    insertBody(body: Request["body"]) {
+        this.username = body.username;
+        this.password = body.password;
+        this.role = body.role;
+        this.firstName = body.firstName;
+        this.lastName = body.lastName;
+        this.birthday = body.lastName;
+
+    }
 
     hashPassword() {
         this.password = bcrypt.hashSync(this.password, 8); // TODO: add salt

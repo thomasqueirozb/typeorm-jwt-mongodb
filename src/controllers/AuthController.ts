@@ -3,10 +3,10 @@ import * as jwt from "jsonwebtoken";
 import { getRepository } from "typeorm";
 import { validate } from "class-validator";
 
-import { User } from "../entity/User";
-import config from "../config/config";
+import User from "../entity/User";
+import { jwtSecret, jwtExpire } from "../config";
 
-export class AuthController {
+export default class AuthController {
     static async login(request: Request, response: Response) {
         // Check if username and password are set
         let { username, password } = request.body;
@@ -32,8 +32,8 @@ export class AuthController {
         // Sign token - expires in config.jwtExpire
         const token = jwt.sign(
             { userId: user.id, username: user.username },
-            config.jwtSecret,
-            { expiresIn: config.jwtExpire }
+            jwtSecret,
+            { expiresIn: jwtExpire }
         );
 
         // Send the jwt in the response

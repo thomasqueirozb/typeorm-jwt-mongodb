@@ -7,8 +7,8 @@ import * as cors from "cors";
 import * as dotenv from "dotenv";
 
 import {Request, Response} from "express";
-import {Routes} from "./routes/routes";
-import {User} from "./entity/User";
+import routes from "./routes";
+import User from "./entity/User";
 
 const dotenv_result = dotenv.config();
 if (dotenv_result.error) {
@@ -25,39 +25,11 @@ createConnection().then(async connection => {
     app.use(helmet());
     app.use(bodyParser.json());
 
-    // register express routes from defined application routes
-    Routes.forEach(route => {
-        app[route.method](
-            route.route,                                          // Path: something like /users/:id
-            route.handlers || [],                                 // Handlers: gets called before the function | normally auth
-            (req: Request, res: Response, next: Function) => {    // The actual funcion that handles the request
-                const result = (new route.controller)[route.action](req, res, next);
-                if (result instanceof Promise) {
-                    result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
-                } else if (result !== null && result !== undefined) {
-                    res.json(result);
-                }
-            });
-    });
-
-    // setup express app here
-    // ...
+    app.use("/", routes);
 
     // start express server
-    app.listen(3000);
-
-    // insert new users for test
-    await connection.manager.save(connection.manager.create(User, {
-        firstName: "Timber",
-        lastName: "Saw",
-        age: 27
-    }));
-    await connection.manager.save(connection.manager.create(User, {
-        firstName: "Phantom",
-        lastName: "Assassin",
-        age: 24
-    }));
-
-    console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results");
-
+    const port = process.env.port || 3000;
+    app.listen(port, () => {
+        console.log("Server started on port", port);
+    });
 }).catch(error => console.log(error));
