@@ -2,10 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import { getRepository } from "typeorm";
 
 import User from "../entity/User";
+import { disableSecurity } from "../config";
 
 export default function checkRole(roles: Array<string>) {
     return async (req: Request, res: Response, next: NextFunction) => {
-        if (process.env.disableSecurity=="1") {
+        if (disableSecurity == "1") {
             next();
             return;
         }
@@ -19,6 +20,7 @@ export default function checkRole(roles: Array<string>) {
             user = await userRepository.findOneOrFail(id);
         } catch (id) {
             res.status(401).send(); // Unauthorized | User does not exist
+            return;
         }
 
         // Check if array of authorized roles includes the user's role

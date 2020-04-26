@@ -12,6 +12,7 @@ export default class AuthController {
         let { username, password } = request.body;
         if (!(username && password)) {
             response.status(400).send(); // Bad Request
+            return;
         }
 
         // Get user from database
@@ -21,6 +22,7 @@ export default class AuthController {
             user = await userRepository.findOneOrFail({ where: { username } });
         } catch (error) {
             response.status(401).send(); // Unauthorized | username not in db
+            return;
         }
 
         // Check if encrypted password matches
@@ -29,7 +31,7 @@ export default class AuthController {
             return;
         }
 
-        // Sign token - expires in config.jwtExpire
+        // Sign token - expires in jwtExpire
         const token = jwt.sign(
             { userId: user.id, username: user.username },
             jwtSecret,
@@ -48,6 +50,7 @@ export default class AuthController {
         const { oldPassword, newPassword } = request.body;
         if (!(oldPassword && newPassword)) {
             response.status(400).send(); // Bad Request
+            return;
         }
 
         // Get user from the database
@@ -57,6 +60,7 @@ export default class AuthController {
             user = await userRepository.findOneOrFail(id);
         } catch (id) {
             response.status(401).send(); // Unauthorized | id not in db
+            return;
         }
 
         // Check if old password matches

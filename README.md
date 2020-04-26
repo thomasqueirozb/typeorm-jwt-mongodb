@@ -1,6 +1,7 @@
 [Based on this medium post by André Gardi.](https://medium.com/javascript-in-plain-english/creating-a-rest-api-with-jwt-authentication-and-role-based-authorization-using-typescript-fbfa3cab22a4) Huge thanks to him.
 
 # TypeORM API using jwt, mongodb and express
+
 ## This is mainly untested. Use it at your own risk
 
 Created using TypeORM version 0.2.24
@@ -28,3 +29,12 @@ Steps to run this project:
 | jwtExpire       | 1h            | Time for token to expire                                                      |
 | port            | 3000          | Port to start                                                                 |
 | disableSecurity | 0             | If set to 1 will disable checkJwt and checkRole **for debugging only**        |
+
+## Checklist
+
+- [x] Json and x-www-form-urlencoded support using Express
+- [x] JWT authentication
+- [ ] Refresh Token
+- [x] Password hashing
+- [ ] Password salt
+- [ ] Automated testing

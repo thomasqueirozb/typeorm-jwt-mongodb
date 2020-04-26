@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
-import {jwtSecret, jwtExpire } from "../config";
+import { jwtSecret, jwtExpire, disableSecurity } from "../config";
 
 export default function checkJwt(request: Request, response: Response, next: NextFunction) {
-    if (process.env.disableSecurity=="1") {
+    if (disableSecurity == "1") {
         next();
         return;
     }
