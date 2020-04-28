@@ -5,6 +5,7 @@
 ## This is mainly untested. Use it at your own risk
 
 Created using TypeORM version 0.2.24
+
 Commands used to create the repository:
 
 ```
@@ -37,4 +38,5 @@ Steps to run this project:
 - [ ] Refresh Token
 - [x] Password hashing
 - [ ] Password salt
+- [x] .env configuration file
 - [ ] Automated testing

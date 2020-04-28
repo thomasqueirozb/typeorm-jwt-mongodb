@@ -4,17 +4,18 @@
   "description": "Awesome project developed with TypeORM.",
   "devDependencies": {
     "@types/node": "^8.0.29",
-    "@typescript-eslint/eslint-plugin": "^2.29.0",
-    "@typescript-eslint/parser": "^2.29.0",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
     "eslint": "^6.8.0",
+    "nodemon": "^2.0.3",
     "ts-node": "3.3.0",
-    "typescript": "3.3.3333"
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "^1.19.0",
     "@types/cors": "^2.8.6",
-    "@types/helmet": "0.0.45",
+    "@types/helmet": "0.0.46",
     "@types/jsonwebtoken": "^8.3.9",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.1",
@@ -30,6 +31,11 @@
     "typeorm": "0.2.24"
   },
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
+    "build": "tsc && cp .env build/.env",
+    "prod": "npm run build && (cd build/ && node index.js)",
+    "lint-check": "eslint --ext .ts src/",
+    "lint": "eslint --fix --ext .ts src/"
   }
 }

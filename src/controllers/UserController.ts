@@ -27,7 +27,7 @@ export default class UserController {
         }
     }
 
-    static async newUser(request: Request, response: Response, next: NextFunction){
+    static async newUser(request: Request, response: Response, next: NextFunction) {
         let user = new User();
         user.username = request.body.username;
         user.password = request.body.password;
